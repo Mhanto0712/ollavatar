@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+@plugin 'tailwind-scrollbar';
+
+#leva__root > * {
+  top: 5%;
+  z-index: 10;
+}

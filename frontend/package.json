@@ -1,0 +1,43 @@
+{
+  "name": "ollavatar",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "total_dev": "concurrently -c green,blue \"npm run api \" \"npm run dev\"",
+    "api": "cd backend/api && fastapi dev main.py",
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.1",
+    "@pixiv/three-vrm": "^3.4.2",
+    "@react-three/drei": "^10.6.1",
+    "@react-three/fiber": "^9.3.0",
+    "@types/three": "^0.179.0",
+    "concurrently": "^9.2.0",
+    "leva": "^0.10.0",
+    "lucide-react": "^0.540.0",
+    "motion": "^12.23.12",
+    "next": "15.4.5",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-markdown": "^10.1.0",
+    "three": "^0.179.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^9",
+    "eslint-config-next": "15.4.5",
+    "tailwind-scrollbar": "^4.0.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

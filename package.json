@@ -1,27 +1,13 @@
 {
-  "name": "ollavatar",
-  "version": "0.1.0",
-  "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.4.5"
+    "total_dev": "concurrently -c green,blue \"npm run back_dev \" \"npm run front_dev\"",
+    "back_dev": "cd backend/api && fastapi dev main.py",
+    "front_dev": "cd frontend && npm run dev",
+    "total_start": "concurrently -c green,blue \"npm run back_start\" \"npm run front_start\"",
+    "back_start": "cd backend/api && uvicorn main:app --host 0.0.0.0 --port 8000",
+    "front_start": "cd frontend && npm run build && npm run start"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.5",
-    "@eslint/eslintrc": "^3"
+    "concurrently": "^9.2.0"
   }
 }
