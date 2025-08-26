@@ -22,8 +22,8 @@ export default function Home() {
   const { avatar } = useControls('VRM', {
     avatar: {
       options: {
-        AvataSample_C: '/models/Vroid_AvataSample_C.vrm',
-        AvataSample_A: '/models/Vroid_AvataSample_A.vrm',
+        Boy: '/models/Vroid_AvatarSample_C.vrm',
+        Girl: '/models/Vroid_AvatarSample_A.vrm',
       },
       label: 'Avatar',
     },

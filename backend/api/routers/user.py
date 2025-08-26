@@ -9,7 +9,6 @@ from database.database import get_db
 
 load_dotenv(dotenv_path="../.env")
 ENV = os.getenv("ENV")
-print(ENV)
 
 router = APIRouter()
 

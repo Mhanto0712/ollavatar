@@ -9,7 +9,6 @@ from routers.token import router as token_router
 
 load_dotenv(dotenv_path="./.env")
 ORIGINAL_URL = os.getenv("ORIGINAL_URL")
-print(ORIGINAL_URL)
 
 app = FastAPI()
 
