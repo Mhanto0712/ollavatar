@@ -35,4 +35,4 @@ async def token( request: Request, response: Response, access_token: str|None = 
     except HTTPException:  
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")

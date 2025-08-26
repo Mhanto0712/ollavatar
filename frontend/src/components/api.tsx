@@ -53,6 +53,7 @@ export async function signUp(username: string, password: string) {
       body: JSON.stringify({ username, password }),
     });
     const data = await response.json();
+
     if (!response.ok) throw data;
     return data;
   } catch (error) {
@@ -73,6 +74,7 @@ export async function logIn(username: string, password: string) {
       body: formData,
     });
     const data = await response.json();
+
     if (!response.ok) throw data;
     return data;
   } catch (error) {
@@ -88,6 +90,7 @@ export async function logout() {
       credentials: 'include',
     });
     const data = await response.json();
+
     if (!response.ok) throw data;
     return data;
   } catch (error) {
@@ -95,14 +98,14 @@ export async function logout() {
   }
 }
 
-// /ollama
+// /ollama/ask
 export async function askOllama(
   model: string,
   messages: { role: string; content: string }[],
   access_token: string
 ) {
   try {
-    const response = await fetch(`${ApiUrl}/ollama`, {
+    const response = await fetch(`${ApiUrl}/ollama/ask`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -111,7 +114,47 @@ export async function askOllama(
       body: JSON.stringify({ model, messages }),
     });
     if (!response.ok) throw await response.json();
+
     return response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// /ollama/update
+export async function updateOllamaUrl(url: string, access_token: string) {
+  try {
+    const response = await fetch(`${ApiUrl}/ollama/update`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${access_token}`,
+      },
+      body: JSON.stringify({ url }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) throw data;
+    return data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// /ollama/check
+export async function checkOllamaUrl(access_token: string) {
+  try {
+    const response = await fetch(`${ApiUrl}/ollama/check`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    const data = await response.json();
+
+    if (!response.ok) throw data;
+    return data;
   } catch (error) {
     throw error;
   }
@@ -133,6 +176,7 @@ export async function createMessage(
       body: JSON.stringify({ sender, content }),
     });
     const data = await response.json();
+
     if (!response.ok) throw data;
     return data;
   } catch (error) {

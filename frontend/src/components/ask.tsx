@@ -22,6 +22,7 @@ interface MessageProps {
     >
   >;
   setIsAnswering: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOllamaUrl: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Ask: React.FC<MessageProps> = ({
@@ -31,6 +32,7 @@ const Ask: React.FC<MessageProps> = ({
   message,
   setMessage,
   setIsAnswering,
+  setIsOllamaUrl,
 }) => {
   const [history, setHistory] = useState<boolean>(false);
   const [question, setQuestion] = useState<string>('');
@@ -107,15 +109,6 @@ const Ask: React.FC<MessageProps> = ({
         ...prev,
         { sender: 'user', content: latestQuestion, created_at: '' },
       ]);
-      // Add user's message to DB
-      const userMessage = await isToken(
-        setIsLogin,
-        accessToken,
-        setAccessToken,
-        async (access_token) => {
-          return await createMessage('user', latestQuestion, access_token);
-        }
-      );
 
       // Add an empty AI message placeholder and remember its index
       let aiIndex: number;
@@ -139,6 +132,16 @@ const Ask: React.FC<MessageProps> = ({
           return updated;
         });
       });
+
+      // Add user's message to DB
+      const userMessage = await isToken(
+        setIsLogin,
+        accessToken,
+        setAccessToken,
+        async (access_token) => {
+          return await createMessage('user', latestQuestion, access_token);
+        }
+      );
       // Add ai's message to DB
       const aiMessage = await isToken(
         setIsLogin,
@@ -156,8 +159,14 @@ const Ask: React.FC<MessageProps> = ({
         error?.detail == '更新憑證已過期'
       ) {
         alert('請重新登入');
+      } else if (error?.detail == '請更新正確的 Ollama URL ！') {
+        setIsOllamaUrl(false);
+        alert(error?.detail);
       } else {
-        alert(`${error?.detail} 請聯絡管理員`);
+        setIsOllamaUrl(false);
+        alert(
+          `請聯絡管理員或嘗試更新 Ollama Url ！\n${error?.detail || error}`
+        );
       }
     }
   };
@@ -210,7 +219,18 @@ const Ask: React.FC<MessageProps> = ({
                   ) : msg.sender === 'user' ? (
                     <p className='whitespace-pre-wrap'>{msg.content}</p>
                   ) : (
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                    <ReactMarkdown
+                      components={{
+                        pre: ({ node, ...props }) => (
+                          <pre className='whitespace-pre-wrap' {...props} />
+                        ),
+                        code: ({ node, ...props }) => (
+                          <code className='wrap-break-word' {...props} />
+                        ),
+                      }}
+                    >
+                      {msg.content}
+                    </ReactMarkdown>
                   )}
                 </div>
               </div>

@@ -47,7 +47,7 @@ async def create_message(message: schema.MessageCreate, db: Session = Depends(ge
         db.refresh(new_message)
         return new_message
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")
 
 # 查詢該使用者的歷史訊息
 @router.get("/history")
@@ -73,4 +73,4 @@ async def get_user_messages(
 
         return prompt
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")

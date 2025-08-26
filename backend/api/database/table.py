@@ -14,6 +14,7 @@ class User(Base):
     username = Column(String(150), unique=True, nullable=False)  # VARCHAR(150)
     password_hash = Column(String(255), nullable=False)          # VARCHAR(255)
     created_at = Column(DateTime, server_default=func.now())     # TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    ollama_ngrok_url = Column(String(255), nullable=True)
 
     # ORM 關聯，一個 user 可以有多個 messages
     messages = relationship("Message", back_populates="user", cascade="all, delete")
