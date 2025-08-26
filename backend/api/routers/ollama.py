@@ -40,7 +40,6 @@ async def verify_ollama_url(url: HttpUrl|None):
             headers = {"ngrok-skip-browser-warning": "true"}
             # 這裡用 /api/tags 作為測試
             res = await client.get(urljoin(url, "/api/tags"), headers=headers)
-            print(res)
             res.raise_for_status()
     except Exception as e:
         raise HTTPException(status_code=400, detail="請更新正確的 Ollama URL ！")

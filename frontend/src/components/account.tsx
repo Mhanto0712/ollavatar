@@ -98,7 +98,7 @@ const Account = ({
   };
 
   return (
-    <div className='fixed top-0 left-0 z-50 w-full h-full flex items-center justify-center'>
+    <div className='fixed top-0 left-0 z-75 w-full h-full flex items-center justify-center'>
       <div className='z-0 absolute w-full h-full bg-black opacity-80 flex justify-center items-center'></div>
       <div className='z-1 w-1/2 h-1/2 bg-gray-900 flex flex-col items-center justify-center rounded-lg'>
         <div className='w-full h-1/10 flex'>

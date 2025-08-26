@@ -98,7 +98,7 @@ export default function Home() {
               width: '100%',
               height: '100%',
               backgroundColor: 'transparent',
-              zIndex: 80,
+              zIndex: 50,
             }}
           />
         </div>
