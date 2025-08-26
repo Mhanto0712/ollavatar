@@ -62,7 +62,7 @@ async def token_refresh(request: Request,response: Response):
     except HTTPException:  
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")
 
 async def get_current_user(access_token: str|None = Depends(oauth2_scheme)):
     try:
@@ -72,7 +72,7 @@ async def get_current_user(access_token: str|None = Depends(oauth2_scheme)):
     except JWTError as e:
         raise HTTPException(status_code=401, detail=f'JWTError: {e}')
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")
     
 async def isToken(access_token: str|None = Depends(oauth2_scheme)):
     return access_token

@@ -8,12 +8,13 @@ import Ask from '@/components/ask';
 import Account from '@/components/account';
 import Loading from '@/components/loading';
 import { useControls } from 'leva';
-import { isToken, getMessage } from '@/components/api';
+import { isToken, checkOllamaUrl, getMessage } from '@/components/api';
 import { Loader } from '@react-three/drei';
 
 export default function Home() {
   const [isLogin, setIsLogin] = useState<'' | boolean>('');
   const [accessToken, setAccessToken] = useState('');
+  const [isOllamaUrl, setIsOllamaUrl] = useState(false);
   const [isAnswering, setIsAnswering] = useState(false);
   const [message, setMessage] = useState<
     { sender: 'user' | 'ai'; content: string; created_at: string }[]
@@ -21,8 +22,8 @@ export default function Home() {
   const { avatar } = useControls('VRM', {
     avatar: {
       options: {
-        AvataSample_C: '/models/Vroid_AvataSample_C.vrm',
-        AvataSample_A: '/models/Vroid_AvataSample_A.vrm',
+        Boy: '/models/Vroid_AvatarSample_C.vrm',
+        Girl: '/models/Vroid_AvatarSample_A.vrm',
       },
       label: 'Avatar',
     },
@@ -49,12 +50,14 @@ export default function Home() {
     (async () => {
       try {
         if (isLogin) {
-          isToken(
+          await isToken(
             setIsLogin,
             accessToken,
             setAccessToken,
             async (access_token) => {
               setMessage(await getMessage(access_token));
+              await checkOllamaUrl(access_token);
+              setIsOllamaUrl(true);
             }
           );
         }
@@ -64,8 +67,11 @@ export default function Home() {
           error?.detail == '更新憑證已過期'
         ) {
           alert('請重新登入');
+        } else if (error?.detail == '請更新正確的 Ollama URL ！') {
+          setIsOllamaUrl(false);
+          alert(error?.detail);
         } else {
-          alert(`${error?.detail} 請聯絡管理員`);
+          alert(`請聯絡管理員！\n${error?.detail || error}`);
         }
       }
     })();
@@ -79,6 +85,7 @@ export default function Home() {
           isLogin={isLogin}
           setIsLogin={setIsLogin}
           setAccessToken={setAccessToken}
+          setIsOllamaUrl={setIsOllamaUrl}
         />
         <div className='relative w-full h-[85%]'>
           <Canvas>
@@ -91,15 +98,18 @@ export default function Home() {
               width: '100%',
               height: '100%',
               backgroundColor: 'transparent',
-              zIndex: 80,
+              zIndex: 50,
             }}
           />
         </div>
-        {isLogin ? null : (
+        {isLogin && isOllamaUrl ? null : (
           <Account
+            isLogin={isLogin}
             setIsLogin={setIsLogin}
             accessToken={accessToken}
             setAccessToken={setAccessToken}
+            isOllamaUrl={isOllamaUrl}
+            setIsOllamaUrl={setIsOllamaUrl}
           />
         )}
         <Ask
@@ -109,6 +119,7 @@ export default function Home() {
           message={message}
           setMessage={setMessage}
           setIsAnswering={setIsAnswering}
+          setIsOllamaUrl={setIsOllamaUrl}
         />
       </main>
     </div>

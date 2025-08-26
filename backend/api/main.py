@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers.user import router as user_router
@@ -5,15 +7,14 @@ from routers.message import router as message_router
 from routers.ollama import router as ollama_router
 from routers.token import router as token_router
 
-app = FastAPI()
+load_dotenv(dotenv_path="./.env")
+ORIGINAL_URL = os.getenv("ORIGINAL_URL")
 
-origins = [
-    "http://localhost:3000",
-]
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=ORIGINAL_URL,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

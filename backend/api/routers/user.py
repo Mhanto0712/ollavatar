@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
@@ -5,37 +7,43 @@ from database import table, schema
 from database.auth import create_access_token, create_refresh_token, hash_password, verify_password
 from database.database import get_db
 
+load_dotenv(dotenv_path="../.env")
+ENV = os.getenv("ENV")
+
 router = APIRouter()
 
 @router.post("/signup")
 async def signup(user: schema.UserSignUp, db: Session = Depends(get_db)):
     try:
-        # 檢查使用者是否存在
-        db_user = db.query(table.User).filter(table.User.username == user.username).first()
-        if db_user:
-            raise HTTPException(status_code=400, detail="用戶名已註冊！")
-        
-        # 建立新使用者
-        new_user = table.User(
-            username=user.username,
-            password_hash=await hash_password(user.password)
-        )
-        db.add(new_user)
-        db.commit()
-        db.refresh(new_user)
+        if(ENV == "DEV"):
+            # 檢查使用者是否存在
+            db_user = db.query(table.User).filter(table.User.username == user.username).first()
+            if db_user:
+                raise HTTPException(status_code=400, detail="用戶名已註冊！")
+            
+            # 建立新使用者
+            new_user = table.User(
+                username=user.username,
+                password_hash=await hash_password(user.password)
+            )
+            db.add(new_user)
+            db.commit()
+            db.refresh(new_user)
 
-        return {
-            "message": "註冊成功！", 
-            "username": user.username,
-            }
+            return {
+                "message": "註冊成功！", 
+                "username": user.username,
+                }
+        else:
+            raise HTTPException(status_code=500, detail="此功能尚未開啟！")
     except HTTPException:  
         raise
     except Exception as e:  
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")
 
 
 @router.post("/login")
-async def login(response: Response,form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login(response: Response, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     try:
         username = form_data.username
         password = form_data.password.encode('utf-8')
@@ -57,7 +65,7 @@ async def login(response: Response,form_data: OAuth2PasswordRequestForm = Depend
     except HTTPException:  
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")
 
 @router.post("/logout")
 async def logout(response: Response):
@@ -70,4 +78,4 @@ async def logout(response: Response):
         )
         return {"message": "成功登出！"}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"伺服器錯誤: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"伺服器錯誤：{str(e)}")

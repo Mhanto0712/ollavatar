@@ -5,9 +5,15 @@ interface NavProps {
   isLogin: '' | boolean;
   setIsLogin: React.Dispatch<React.SetStateAction<'' | boolean>>;
   setAccessToken: React.Dispatch<React.SetStateAction<string>>;
+  setIsOllamaUrl: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Nav: React.FC<NavProps> = ({ isLogin, setIsLogin, setAccessToken }) => {
+const Nav: React.FC<NavProps> = ({
+  isLogin,
+  setIsLogin,
+  setAccessToken,
+  setIsOllamaUrl,
+}) => {
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -17,7 +23,7 @@ const Nav: React.FC<NavProps> = ({ isLogin, setIsLogin, setAccessToken }) => {
       setIsLogin(false);
       setAccessToken('');
     } catch (error: any) {
-      alert(error?.detail);
+      alert(`請聯絡管理員！\n${error?.detail || error}`);
     }
   };
 
@@ -34,8 +40,16 @@ const Nav: React.FC<NavProps> = ({ isLogin, setIsLogin, setAccessToken }) => {
       </div>
       <div className='size-fit'>
         {isLogin ? (
-          <ul className='flex'>
-            <li>
+          <ul className='flex gap-4'>
+            <li className='hover:underline hover:underline-offset-4'>
+              <a
+                className='block text-xl cursor-pointer'
+                onClick={() => setIsOllamaUrl(false)}
+              >
+                OllamaURL
+              </a>
+            </li>
+            <li className='hover:underline hover:underline-offset-4'>
               <a
                 className='block text-xl cursor-pointer'
                 onClick={handleLogout}

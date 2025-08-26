@@ -4,4 +4,7 @@
 #leva__root > * {
   top: 5%;
   z-index: 10;
+  font-size: 16px;
+  width: 20%;
+  height: auto;
 }
