@@ -248,17 +248,6 @@ const Ask: React.FC<MessageProps> = ({
       <textarea
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
-        onKeyDown={async (e) => {
-          if (
-            e.key === 'Enter' &&
-            !e.shiftKey &&
-            !e.nativeEvent.isComposing &&
-            !isAsking
-          ) {
-            e.preventDefault(); // 阻止換行
-            await handleSubmit(); // 送出訊息()
-          }
-        }}
         className='w-full h-full resize-none rounded ring-2 ring-gray-700 bg-gray-800 p-2 scrollbar hover:scrollbar-thumb-gray-400 focus:outline-none focus:ring-gray-500'
         placeholder='輸入你的問題...'
         rows={1}
