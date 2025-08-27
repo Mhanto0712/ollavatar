@@ -1,18 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const isDev = process.env.NODE_ENV === 'development';
+console.log(process.env.NEXT_PUBLIC_API_URL);
+
 export function middleware(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const cspHeader = `
-    default-src 'self';
-    script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
-    style-src 'self' 'nonce-${nonce}';
-    img-src 'self' blob: data:;
-    font-src 'self';
-    object-src 'none';
-    base-uri 'self';
-    form-action 'self';
-    frame-ancestors 'none';
-    upgrade-insecure-requests;
+  default-src 'self';
+  connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL} blob: 'self';
+  script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${
+    isDev ? "'unsafe-eval'" : ''
+  };
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' blob: data:;
+  font-src 'self';
+  object-src 'none';
+  base-uri 'self';
+  form-action 'self';
+  frame-ancestors 'none';
+  upgrade-insecure-requests;
 `;
   // Replace newline characters and spaces
   const contentSecurityPolicyHeaderValue = cspHeader
@@ -20,8 +26,8 @@ export function middleware(request: NextRequest) {
     .trim();
 
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-nonce', nonce);
 
+  requestHeaders.set('x-nonce', nonce);
   requestHeaders.set(
     'Content-Security-Policy',
     contentSecurityPolicyHeaderValue

@@ -8,7 +8,7 @@ export async function isToken(
   callback?: (token: string) => Promise<any>
 ) {
   try {
-    const response = await fetch(`${ApiUrl}/token`, {
+    const response = await fetch(`${ApiUrl}/api/token`, {
       method: 'GET',
       credentials: 'include',
       headers: {
@@ -45,7 +45,7 @@ export async function isToken(
 // /user/signup
 export async function signUp(username: string, password: string) {
   try {
-    const response = await fetch(`${ApiUrl}/user/signup`, {
+    const response = await fetch(`${ApiUrl}/api/user/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ export async function logIn(username: string, password: string) {
     formData.append('username', username);
     formData.append('password', password);
 
-    const response = await fetch(`${ApiUrl}/user/login`, {
+    const response = await fetch(`${ApiUrl}/api/user/login`, {
       method: 'POST',
       credentials: 'include',
       body: formData,
@@ -85,7 +85,7 @@ export async function logIn(username: string, password: string) {
 // /user/logout
 export async function logout() {
   try {
-    const response = await fetch(`${ApiUrl}/user/logout`, {
+    const response = await fetch(`${ApiUrl}/api/user/logout`, {
       method: 'POST',
       credentials: 'include',
     });
@@ -105,7 +105,7 @@ export async function askOllama(
   access_token: string
 ) {
   try {
-    const response = await fetch(`${ApiUrl}/ollama/ask`, {
+    const response = await fetch(`${ApiUrl}/api/ollama/ask`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export async function askOllama(
 // /ollama/update
 export async function updateOllamaUrl(url: string, access_token: string) {
   try {
-    const response = await fetch(`${ApiUrl}/ollama/update`, {
+    const response = await fetch(`${ApiUrl}/api/ollama/update`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -144,7 +144,7 @@ export async function updateOllamaUrl(url: string, access_token: string) {
 // /ollama/check
 export async function checkOllamaUrl(access_token: string) {
   try {
-    const response = await fetch(`${ApiUrl}/ollama/check`, {
+    const response = await fetch(`${ApiUrl}/api/ollama/check`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -167,7 +167,7 @@ export async function createMessage(
   access_token: string
 ) {
   try {
-    const response = await fetch(`${ApiUrl}/message`, {
+    const response = await fetch(`${ApiUrl}/api/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ export async function createMessage(
 // /message/history
 export async function getMessage(access_token: string) {
   try {
-    const response = await fetch(`${ApiUrl}/message/history`, {
+    const response = await fetch(`${ApiUrl}/api/message/history`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

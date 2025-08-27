@@ -49,3 +49,7 @@ __pycache__
 # frontend
 node_modules
 .next
+
+# Dev Https
+cert
+certificates
