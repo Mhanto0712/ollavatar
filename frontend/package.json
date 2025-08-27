@@ -3,9 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "total_dev": "concurrently -c green,blue \"npm run api \" \"npm run dev\"",
-    "api": "cd backend/api && fastapi dev main.py",
-    "dev": "next dev --turbopack",
+    "dev": "next dev --experimental-https --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

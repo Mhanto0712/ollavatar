@@ -40,7 +40,7 @@ export default function Home() {
         ) {
           return;
         } else {
-          alert(`${error?.detail} 請聯絡管理員`);
+          alert(`請聯絡管理員！\n${error?.detail || error}`);
         }
       }
     })();
