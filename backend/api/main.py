@@ -8,13 +8,23 @@ from routers.ollama import router as ollama_router
 from routers.token import router as token_router
 
 load_dotenv(dotenv_path="./.env")
-ORIGINAL_URL = os.getenv("ORIGINAL_URL")
+ENV = os.getenv("ENV")
 
 app = FastAPI()
 
+if ENV=="DEV":
+    origins = [
+        'http://localhost:3000',
+        'https://localhost:3000'
+    ]
+else:
+    origins = [
+        "https://ollavatar.zeabur.app"
+    ]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=ORIGINAL_URL,
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

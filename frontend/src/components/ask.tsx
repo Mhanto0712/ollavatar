@@ -119,7 +119,7 @@ const Ask: React.FC<MessageProps> = ({
       });
 
       // Stream chunks into that AI message
-      await sendQuestion('gemma3', finalPrompt, (chunk) => {
+      await sendQuestion('gemma3:4b', finalPrompt, (chunk) => {
         setMessage((prev) => {
           const updated = [...prev];
           updated[aiIndex] = {
@@ -190,13 +190,13 @@ const Ask: React.FC<MessageProps> = ({
   }, [history]);
 
   return (
-    <div className='relative w-full h-[10%] flex items-center justify-between gap-4 p-4 text-xl text-white'>
+    <div className='relative w-full h-[10%] flex items-center justify-between gap-4 p-4 text-xl text-white max-md:p-2 max-md:gap-2 max-md:text-sm'>
       {history && (
         <div
           ref={historRef}
-          className='absolute bottom-1/1 left-0 w-full h-auto max-h-3/1 p-4 pb-2 overflow-y-auto scrollbar hover:scrollbar-thumb-gray-400'
+          className='absolute bottom-1/1 left-0 w-full h-auto max-h-3/1 p-4 pb-2 overflow-y-auto scrollbar hover:scrollbar-thumb-gray-400 max-md:p-2'
         >
-          <div className='flex flex-col gap-4 w-full h-full'>
+          <div className='flex flex-col gap-4 w-full h-full max-md:gap-2'>
             {message.map((msg, idx) => (
               <div
                 key={idx}
@@ -205,10 +205,10 @@ const Ask: React.FC<MessageProps> = ({
                 }`}
               >
                 <div
-                  className={`rounded p-4 opacity-80 ${
+                  className={`rounded p-4 opacity-80 max-md:p-2 ${
                     msg.sender === 'user'
-                      ? 'w-2/5 bg-gray-600'
-                      : 'w-1/2 bg-gray-950 ring-2 ring-gray-600'
+                      ? 'w-2/5 bg-gray-600 max-md:w-[90%]'
+                      : 'w-1/2 bg-gray-950 ring-2 ring-gray-600 max-md:w-[90%]'
                   }`}
                 >
                   {msg.content === '' ? (
@@ -217,12 +217,17 @@ const Ask: React.FC<MessageProps> = ({
                       <span>思考中...</span>
                     </div>
                   ) : msg.sender === 'user' ? (
-                    <p className='whitespace-pre-wrap'>{msg.content}</p>
+                    <p className='whitespace-pre-wrap wrap-break-word'>
+                      {msg.content}
+                    </p>
                   ) : (
                     <ReactMarkdown
                       components={{
                         pre: ({ node, ...props }) => (
-                          <pre className='whitespace-pre-wrap' {...props} />
+                          <pre
+                            className='whitespace-pre-wrap wrap-break-word'
+                            {...props}
+                          />
                         ),
                         code: ({ node, ...props }) => (
                           <code className='wrap-break-word' {...props} />
@@ -243,12 +248,12 @@ const Ask: React.FC<MessageProps> = ({
         disabled={isAsking}
         className='text-gray-500 hover:text-gray-300 cursor-pointer'
       >
-        <History className='w-8 h-auto aspect-square' />
+        <History className='w-8 h-auto aspect-square max-md:w-6' />
       </button>
       <textarea
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
-        className='w-full h-full resize-none rounded ring-2 ring-gray-700 bg-gray-800 p-2 scrollbar hover:scrollbar-thumb-gray-400 focus:outline-none focus:ring-gray-500'
+        className='w-full h-full resize-none rounded ring-2 ring-gray-700 bg-gray-800 p-2 scrollbar hover:scrollbar-thumb-gray-400 focus:outline-none focus:ring-gray-500 max-md:text-sm'
         placeholder='輸入你的問題...'
         rows={1}
       />
@@ -259,7 +264,7 @@ const Ask: React.FC<MessageProps> = ({
         disabled={isAsking}
         className='text-gray-500 hover:text-gray-300 cursor-pointer'
       >
-        <Send className='w-8 h-auto aspect-square' />
+        <Send className='w-8 h-auto aspect-square max-md:w-6' />
       </button>
     </div>
   );

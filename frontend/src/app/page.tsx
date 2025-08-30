@@ -19,15 +19,19 @@ export default function Home() {
   const [message, setMessage] = useState<
     { sender: 'user' | 'ai'; content: string; created_at: string }[]
   >([]);
-  const { avatar } = useControls('VRM', {
-    avatar: {
-      options: {
-        Boy: '/models/Vroid_AvatarSample_C.vrm',
-        Girl: '/models/Vroid_AvatarSample_A.vrm',
+  const { avatar } = useControls(
+    'VRM',
+    {
+      avatar: {
+        options: {
+          Boy: '/models/Vroid_AvatarSample_C.vrm',
+          Girl: '/models/Vroid_AvatarSample_A.vrm',
+        },
+        label: 'Avatar',
       },
-      label: 'Avatar',
     },
-  });
+    { collapsed: true }
+  );
 
   useEffect(() => {
     (async () => {

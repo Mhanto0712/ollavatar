@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "http_dev": "next dev --turbopack",
     "dev": "next dev --experimental-https --turbopack",
     "build": "next build",
     "start": "next start",

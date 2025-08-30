@@ -1,5 +1,8 @@
 {
   "scripts": {
+    "total_http_dev": "concurrently -c green,blue \"npm run back_http_dev \" \"npm run front_http_dev\"",
+    "back_http_dev": "cd backend/api && uvicorn main:app --host localhost --port 8000 --reload",
+    "front_http_dev": "cd frontend && npm run http_dev",
     "total_dev": "concurrently -c green,blue \"npm run back_dev \" \"npm run front_dev\"",
     "back_dev": "cd backend/api && uvicorn main:app --host localhost --port 8000 --reload --ssl-keyfile ../cert/localhost+2-key.pem --ssl-certfile ../cert/localhost+2.pem",
     "front_dev": "cd frontend && npm run dev",

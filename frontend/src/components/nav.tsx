@@ -28,11 +28,11 @@ const Nav: React.FC<NavProps> = ({
   };
 
   return (
-    <nav className='w-full h-[5%] flex items-center justify-between p-4'>
+    <nav className='w-full h-[5%] flex items-center justify-between p-4 max-md:p-2'>
       <div className='size-fit'>
         <ul>
           <li>
-            <a className='block font-bold text-2xl' href='#'>
+            <a className='block font-bold text-2xl max-md:text-xl' href='#'>
               Ollavatar
             </a>
           </li>
@@ -40,20 +40,17 @@ const Nav: React.FC<NavProps> = ({
       </div>
       <div className='size-fit'>
         {isLogin ? (
-          <ul className='flex gap-4'>
+          <ul className='flex gap-4 text-xl max-md:text-base max-md:gap-2'>
             <li className='hover:underline hover:underline-offset-4'>
               <a
-                className='block text-xl cursor-pointer'
+                className='block cursor-pointer'
                 onClick={() => setIsOllamaUrl(false)}
               >
                 OllamaURL
               </a>
             </li>
             <li className='hover:underline hover:underline-offset-4'>
-              <a
-                className='block text-xl cursor-pointer'
-                onClick={handleLogout}
-              >
+              <a className='block cursor-pointer' onClick={handleLogout}>
                 登出
               </a>
             </li>
