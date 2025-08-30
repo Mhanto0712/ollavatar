@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const isDev = process.env.NODE_ENV === 'development';
-console.log(process.env.NEXT_PUBLIC_API_URL);
+const ENV = process.env.NEXT_PUBLIC_ENV;
 
 export function middleware(request: NextRequest) {
-  const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
-  const cspHeader = `
+  if (ENV == 'http_DEV') {
+    return;
+  } else {
+    const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
+    const cspHeader = `
   default-src 'self';
   connect-src 'self' ${process.env.NEXT_PUBLIC_API_URL} blob: 'self';
   script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${
-    isDev ? "'unsafe-eval'" : ''
-  };
+      ENV === 'https_DEV' ? "'unsafe-eval'" : ''
+    };
   style-src 'self' 'unsafe-inline';
   img-src 'self' blob: data:;
   font-src 'self';
@@ -20,30 +22,31 @@ export function middleware(request: NextRequest) {
   frame-ancestors 'none';
   upgrade-insecure-requests;
 `;
-  // Replace newline characters and spaces
-  const contentSecurityPolicyHeaderValue = cspHeader
-    .replace(/\s{2,}/g, ' ')
-    .trim();
+    // Replace newline characters and spaces
+    const contentSecurityPolicyHeaderValue = cspHeader
+      .replace(/\s{2,}/g, ' ')
+      .trim();
 
-  const requestHeaders = new Headers(request.headers);
+    const requestHeaders = new Headers(request.headers);
 
-  requestHeaders.set('x-nonce', nonce);
-  requestHeaders.set(
-    'Content-Security-Policy',
-    contentSecurityPolicyHeaderValue
-  );
+    requestHeaders.set('x-nonce', nonce);
+    requestHeaders.set(
+      'Content-Security-Policy',
+      contentSecurityPolicyHeaderValue
+    );
 
-  const response = NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
-  response.headers.set(
-    'Content-Security-Policy',
-    contentSecurityPolicyHeaderValue
-  );
+    const response = NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
+    response.headers.set(
+      'Content-Security-Policy',
+      contentSecurityPolicyHeaderValue
+    );
 
-  return response;
+    return response;
+  }
 }
 
 export const config = {

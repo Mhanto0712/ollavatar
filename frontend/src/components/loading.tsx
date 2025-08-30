@@ -38,7 +38,7 @@ const CircularProgressWithLabel = (
         }}
       >
         <Typography
-          className='!text-4xl'
+          className='!text-4xl max-md:!text-lg'
           variant='caption'
           component='div'
           sx={{ color: 'white' }}

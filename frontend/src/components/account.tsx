@@ -100,13 +100,13 @@ const Account = ({
   return (
     <div className='fixed top-0 left-0 z-75 w-full h-full flex items-center justify-center'>
       <div className='z-0 absolute w-full h-full bg-black opacity-80 flex justify-center items-center'></div>
-      <div className='z-1 w-1/2 h-1/2 bg-gray-900 flex flex-col items-center justify-center rounded-lg'>
+      <div className='z-1 w-1/2 h-1/2 bg-gray-900 flex flex-col items-center justify-center rounded-lg text-xl max-xl:w-3/4 max-md:text-sm'>
         <div className='w-full h-1/10 flex'>
           {!isLogin ? (
             <>
               <button
                 onClick={() => setActiveTab('signup')}
-                className={`w-full h-full p-2 text-xl transition-colors cursor-pointer
+                className={`w-full h-full p-2 transition-colors cursor-pointer
       ${
         activeTab === 'signup'
           ? 'bg-gray-950 text-white'
@@ -118,7 +118,7 @@ const Account = ({
 
               <button
                 onClick={() => setActiveTab('login')}
-                className={`w-full h-full p-2 text-xl transition-colors cursor-pointer
+                className={`w-full h-full p-2 transition-colors cursor-pointer
       ${
         activeTab === 'login'
           ? 'bg-gray-950 text-white'
@@ -131,7 +131,7 @@ const Account = ({
           ) : (
             /* 輸入 Ollama URL */
             <div className='relative w-full h-full'>
-              <button className='w-full h-full p-2 text-xl text-center bg-gray-950 text-white'>
+              <button className='w-full h-full p-2 text-center bg-gray-950 text-white'>
                 Ollama URL
               </button>
               <CircleX
@@ -143,7 +143,7 @@ const Account = ({
         </div>
         <form
           onSubmit={handleLogin}
-          className='flex flex-col justify-center items-center gap-4 p-4 w-full h-9/10 text-xl text-black'
+          className='flex flex-col justify-center items-center gap-4 p-4 w-full h-9/10 text-black'
         >
           {!isLogin ? (
             <>
